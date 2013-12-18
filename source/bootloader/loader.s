@@ -1,5 +1,5 @@
     global loader                   ; the entry symbol for ELF    
-    extern main
+
     MODULEALIGN       equ     1<<0
     MEMINFO           equ     1<<1
     FLAGS             equ     MODULEALIGN | MEMINFO
