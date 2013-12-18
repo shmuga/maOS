@@ -1,5 +1,10 @@
-nasm -f elf32 source/bootloader/loader.s -o bootloader/loader.o
-ld -T link.ld -melf_i386 bootloader/loader.o -o iso/boot/kernel.elf
+gcc_flags="-pedantic -pipe -Werror -std=c99 -march=i386 -m32 -fno-asynchronous-unwind-tables -fno-stack-protector -nostdinc -ffreestanding"
+
+nasm -f elf32 source/bootloader/loader.s -o build/bootloader/loader.o
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:source/headers
+gcc $gcc_flags -c source/kernel/*.c  -o build/kernel/kernel.o
+
+ld -T link.ld -melf_i386 -Map logs/kernel.map build/bootloader/*.o build/kernel/*.o -o iso/boot/kernel.elf
 
 cp grub/stage2_eltorito iso/boot/grub/
 cp grub/menu.lst iso/boot/grub/

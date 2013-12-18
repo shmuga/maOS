@@ -1,0 +1,53 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000100000                . = 0x100000
+
+.text           0x0000000000100000       0x53
+ *(.text)
+ .text          0x0000000000100000       0x53 build/kernel/kernel.o
+                0x0000000000100000                write_string
+                0x0000000000100037                main
+
+.iplt           0x0000000000100060        0x0
+ .iplt          0x0000000000000000        0x0 build/kernel/kernel.o
+
+.rodata         0x0000000000101000        0x6
+ *(.rodata*)
+ .rodata        0x0000000000101000        0x6 build/kernel/kernel.o
+
+.text:          0x0000000000101008       0x1b
+ .text:         0x0000000000101008       0x1b build/bootloader/loader.o
+                0x0000000000101014                loader
+
+.rel.dyn        0x0000000000101024        0x0
+ .rel.iplt      0x0000000000000000        0x0 build/kernel/kernel.o
+
+.data           0x0000000000102000        0x0
+ *(.data)
+ .data          0x0000000000102000        0x0 build/kernel/kernel.o
+
+.igot.plt       0x0000000000101024        0x0 load address 0x0000000000102000
+ .igot.plt      0x0000000000000000        0x0 build/kernel/kernel.o
+
+.bss            0x0000000000102000        0x0
+ *(COMMON)
+ *(.bss)
+ .bss           0x0000000000102000        0x0 build/kernel/kernel.o
+LOAD build/bootloader/loader.o
+LOAD build/kernel/kernel.o
+OUTPUT(iso/boot/kernel.elf elf32-i386)
+
+.comment        0x0000000000000000       0x2a
+ .comment       0x0000000000000000       0x2a build/kernel/kernel.o
+                                         0x2b (size before relaxing)
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/kernel/kernel.o
