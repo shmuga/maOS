@@ -1,21 +1,28 @@
-    global loader                   ; the entry symbol for ELF    
-
+    global loader                
+    extern main
+    
     MODULEALIGN       equ     1<<0
     MEMINFO           equ     1<<1
     FLAGS             equ     MODULEALIGN | MEMINFO
     MAGIC             equ     0x1BADB002
     CHECKSUM          equ     -(MAGIC + FLAGS)
+    KERNEL_STACK_SIZE equ     4096    
 
-    section .text:                  ; start of the text (code) section 
-    align 4
-    dd MAGIC
-    dd FLAGS
-    dd CHECKSUM    
+    section .multiboot
+        align 4
+        dd MAGIC
+        dd FLAGS
+        dd CHECKSUM
 
-    loader:                         ; the loader label (defined as entry point in linker script)
-        mov esp, 0xCAFEBABE 
-        mov byte [0xB8000],'h'
-    .loop:
+    section .bss
+    kernel_stack:                 
+        resb KERNEL_STACK_SIZE    
+
+    section .text:          
+    loader:
+        mov esp, kernel_stack + KERNEL_STACK_SIZE                        
+        call main
         hlt
-        jmp .loop                   ; loop forever
+    .loop:        
+        jmp .loop                  
         

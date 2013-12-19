@@ -2,6 +2,11 @@ ENTRY(loader)
 . = 0x00100000;
 SECTIONS
 {
+    .multiboot :
+    {
+        *(.multiboot)
+    }
+
     .text ALIGN (0x1000):
     {
         *(.text)            
@@ -20,6 +25,7 @@ SECTIONS
     .bss ALIGN (0x1000):    
     {
         *(COMMON)           
-        *(.bss)            
+        *(.bss)    
+        *(.stack_begin)        
     }
 }

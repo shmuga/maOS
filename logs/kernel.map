@@ -8,21 +8,55 @@ Linker script and memory map
 
                 0x0000000000100000                . = 0x100000
 
-.text
+.multiboot      0x0000000000100000        0xc
+ *(.multiboot)
+ .multiboot     0x0000000000100000        0xc build/bootloader/loader.o
+
+.text           0x0000000000101000      0x146
  *(.text)
+ .text          0x0000000000101000      0x146 build/kernel/kernel.o
+                0x0000000000101000                print_char
+                0x0000000000101047                print_line
+                0x000000000010109b                clear_terminal
+                0x00000000001010ef                main
 
-.rodata
+.iplt           0x0000000000101150        0x0
+ .iplt          0x0000000000000000        0x0 build/bootloader/loader.o
+
+.rodata         0x0000000000102000        0xe
  *(.rodata*)
+ .rodata        0x0000000000102000        0xe build/kernel/kernel.o
 
-.text:          0x0000000000100000       0x1b
- .text:         0x0000000000100000       0x1b build/bootloader/loader.o
-                0x000000000010000c                loader
+.text:          0x000000000010200e        0xd
+ .text:         0x000000000010200e        0xd build/bootloader/loader.o
+                0x000000000010200e                loader
 
-.data
+.rel.dyn        0x000000000010201c        0x0
+ .rel.iplt      0x0000000000000000        0x0 build/bootloader/loader.o
+ .rel.text:     0x0000000000000000        0x0 build/bootloader/loader.o
+
+.data           0x0000000000103000        0x0
  *(.data)
+ .data          0x0000000000103000        0x0 build/kernel/kernel.o
 
-.bss
+.igot.plt       0x000000000010201c        0x0 load address 0x0000000000103000
+ .igot.plt      0x0000000000000000        0x0 build/bootloader/loader.o
+
+.bss            0x0000000000103000     0x1000
  *(COMMON)
  *(.bss)
+ .bss           0x0000000000103000     0x1000 build/bootloader/loader.o
+ .bss           0x0000000000104000        0x0 build/kernel/kernel.o
+ *(.stack_begin)
 LOAD build/bootloader/loader.o
+LOAD build/kernel/kernel.o
 OUTPUT(iso/boot/kernel.elf elf32-i386)
+
+.comment        0x0000000000000000       0x2a
+ .comment       0x0000000000000000       0x2a build/kernel/kernel.o
+                                         0x2b (size before relaxing)
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/kernel/kernel.o
