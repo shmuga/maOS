@@ -38,7 +38,7 @@ void main(unsigned long magic, unsigned long addr)
 	// *((int*)0xb80a0)=0x07690748;	
 	// print_char(2,45,1,15,'a');
 	// char i='a';
-	char hello[] = "hello world !";
+	char hello[] = "hello world!";
 	// char world[] = "world";
 
 	// char j='a';

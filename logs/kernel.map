@@ -23,13 +23,13 @@ Linker script and memory map
 .iplt           0x0000000000101150        0x0
  .iplt          0x0000000000000000        0x0 build/bootloader/loader.o
 
-.rodata         0x0000000000102000        0xe
+.rodata         0x0000000000102000        0xd
  *(.rodata*)
- .rodata        0x0000000000102000        0xe build/kernel/kernel.o
+ .rodata        0x0000000000102000        0xd build/kernel/kernel.o
 
-.text:          0x000000000010200e        0xd
- .text:         0x000000000010200e        0xd build/bootloader/loader.o
-                0x000000000010200e                loader
+.text:          0x000000000010200d        0xd
+ .text:         0x000000000010200d        0xd build/bootloader/loader.o
+                0x000000000010200d                loader
 
 .rel.dyn        0x000000000010201c        0x0
  .rel.iplt      0x0000000000000000        0x0 build/bootloader/loader.o
