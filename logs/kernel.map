@@ -1,4 +1,9 @@
 
+Allocating common symbols
+Common symbol       size              file
+
+textmemptr          0x4               build/libs/scrn.o
+
 Memory Configuration
 
 Name             Origin             Length             Attributes
@@ -12,51 +17,83 @@ Linker script and memory map
  *(.multiboot)
  .multiboot     0x0000000000100000        0xc build/bootloader/loader.o
 
-.text           0x0000000000101000      0x146
+.text           0x0000000000101000      0x42c
  *(.text)
- .text          0x0000000000101000      0x146 build/kernel/kernel.o
-                0x0000000000101000                print_char
-                0x0000000000101047                print_line
-                0x000000000010109b                clear_terminal
-                0x00000000001010ef                main
+ .text          0x0000000000101000       0x21 build/kernel/kernel.o
+                0x0000000000101000                main
+ *fill*         0x0000000000101021        0x3 00
+ .text          0x0000000000101024       0xf6 build/libs/base.o
+                0x0000000000101024                memcpy
+                0x0000000000101056                memset
+                0x0000000000101083                memsetw
+                0x00000000001010b3                strlen
+                0x00000000001010d6                inportb
+                0x00000000001010fe                outportb
+ *fill*         0x000000000010111a        0x2 00
+ .text          0x000000000010111c      0x310 build/libs/scrn.o
+                0x000000000010111c                scroll
+                0x00000000001011d1                move_csr
+                0x000000000010124c                cls
+                0x00000000001012c1                putch
+                0x00000000001013b3                puts
+                0x00000000001013ea                settextcolor
+                0x0000000000101415                init_video
 
-.iplt           0x0000000000101150        0x0
+.iplt           0x0000000000101430        0x0
  .iplt          0x0000000000000000        0x0 build/bootloader/loader.o
 
-.rodata         0x0000000000102000        0xe
+.rodata         0x0000000000102000       0x26
  *(.rodata*)
- .rodata        0x0000000000102000        0xe build/kernel/kernel.o
+ .rodata        0x0000000000102000       0x26 build/kernel/kernel.o
 
-.text:          0x000000000010200e        0xd
- .text:         0x000000000010200e        0xd build/bootloader/loader.o
-                0x000000000010200e                loader
+.text:          0x0000000000102026        0xd
+ .text:         0x0000000000102026        0xd build/bootloader/loader.o
+                0x0000000000102026                loader
 
-.rel.dyn        0x000000000010201c        0x0
+.rel.dyn        0x0000000000102034        0x0
  .rel.iplt      0x0000000000000000        0x0 build/bootloader/loader.o
  .rel.text:     0x0000000000000000        0x0 build/bootloader/loader.o
+ .rel.text      0x0000000000000000        0x0 build/bootloader/loader.o
 
-.data           0x0000000000103000        0x0
+.data           0x0000000000103000        0x4
  *(.data)
  .data          0x0000000000103000        0x0 build/kernel/kernel.o
+ .data          0x0000000000103000        0x0 build/libs/base.o
+ .data          0x0000000000103000        0x4 build/libs/scrn.o
+                0x0000000000103000                attrib
 
-.igot.plt       0x000000000010201c        0x0 load address 0x0000000000103000
+.igot.plt       0x0000000000103004        0x0
  .igot.plt      0x0000000000000000        0x0 build/bootloader/loader.o
 
-.bss            0x0000000000103000     0x1000
+.bss            0x0000000000104000     0x100c
  *(COMMON)
+ COMMON         0x0000000000104000        0x4 build/libs/scrn.o
+                0x0000000000104000                textmemptr
  *(.bss)
- .bss           0x0000000000103000     0x1000 build/bootloader/loader.o
- .bss           0x0000000000104000        0x0 build/kernel/kernel.o
+ .bss           0x0000000000104004     0x1000 build/bootloader/loader.o
+ .bss           0x0000000000105004        0x0 build/kernel/kernel.o
+ .bss           0x0000000000105004        0x0 build/libs/base.o
+ .bss           0x0000000000105004        0x8 build/libs/scrn.o
+                0x0000000000105004                csr_x
+                0x0000000000105008                csr_y
  *(.stack_begin)
 LOAD build/bootloader/loader.o
 LOAD build/kernel/kernel.o
+LOAD build/libs/base.o
+LOAD build/libs/scrn.o
 OUTPUT(iso/boot/kernel.elf elf32-i386)
 
 .comment        0x0000000000000000       0x2a
  .comment       0x0000000000000000       0x2a build/kernel/kernel.o
                                          0x2b (size before relaxing)
+ .comment       0x0000000000000000       0x2b build/libs/base.o
+ .comment       0x0000000000000000       0x2b build/libs/scrn.o
 
 .note.GNU-stack
                 0x0000000000000000        0x0
  .note.GNU-stack
                 0x0000000000000000        0x0 build/kernel/kernel.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/libs/base.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 build/libs/scrn.o
