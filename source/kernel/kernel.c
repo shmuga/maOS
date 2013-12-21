@@ -1,4 +1,5 @@
 #include "multiboot.h"
+<<<<<<< HEAD
 
 #define TERM_WIDTH 80
 #define TERM_HEIGHT 24
@@ -29,6 +30,9 @@ void clear_terminal(int color)
 		}		
 	}
 }
+=======
+#include "system.h"
+>>>>>>> origin/mark
 
 
 
@@ -409,7 +413,14 @@ void keyboard_install()
 ////////////////////////////////////////////////
 
 void main(unsigned long magic, unsigned long addr)
+<<<<<<< HEAD
 {
+=======
+{	
+	init_video();	
+	cls();
+	puts((unsigned char*)"This is the beggining of the new ERA!");
+>>>>>>> origin/mark
 
 	idt_install();
 	isrs_install();

@@ -472,7 +472,13 @@
         call main
         hlt    
     .loop:        
+<<<<<<< HEAD
         jmp .loop     
 
     
         
+=======
+        jmp .loop                  
+        
+    
+>>>>>>> origin/mark
