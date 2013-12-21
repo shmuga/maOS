@@ -5,7 +5,6 @@ Common symbol       size              file
 gp                  0x6               build/libs/gdt.o
 idtp                0x6               build/libs/idt.o
 gdt                 0x18              build/libs/gdt.o
-screen_buffer       0x64              build/libs/buffer.o
 idt                 0x800             build/libs/idt.o
 textmemptr          0x4               build/libs/scrn.o
 
@@ -22,11 +21,7 @@ Linker script and memory map
  *(.multiboot)
  .multiboot     0x0000000000100000        0xc build/bootloader/loader.o
 
-<<<<<<< HEAD
-.text           0x0000000000101000     0x11ec
-=======
-.text           0x0000000000101000     0x11b2
->>>>>>> ce29ddb43b5bcb10d2ed3d5df0a594415c3c6bd7
+.text           0x0000000000101000     0x11dc
  *(.text)
  .text          0x0000000000101000      0x1e2 build/bootloader/idt.o
                 0x0000000000101000                gdt_flush
@@ -80,131 +75,66 @@ Linker script and memory map
                 0x00000000001011ab                irq14
                 0x00000000001011b2                irq15
  *fill*         0x00000000001011e2        0x2 00
-<<<<<<< HEAD
- .text          0x00000000001011e4       0x3b build/kernel/kernel.o
+ .text          0x00000000001011e4       0x2c build/kernel/kernel.o
                 0x00000000001011e4                main
- *fill*         0x000000000010121f        0x1 00
- .text          0x0000000000101220       0xf6 build/libs/base.o
-                0x0000000000101220                memcpy
-                0x0000000000101252                memset
-                0x000000000010127f                memsetw
-                0x00000000001012af                strlen
-                0x00000000001012d2                inportb
-                0x00000000001012fa                outportb
- *fill*         0x0000000000101316        0x2 00
- .text          0x0000000000101318      0x138 build/libs/gdt.o
-                0x0000000000101318                gdt_set_gate
-                0x00000000001013ac                gdt_install
- .text          0x0000000000101450       0xa1 build/libs/idt.o
-                0x0000000000101450                idt_set_gate
-                0x00000000001014b5                idt_install
- *fill*         0x00000000001014f1        0x3 00
- .text          0x00000000001014f4      0x3b1 build/libs/irq.o
-                0x00000000001014f4                irq_install_handler
-                0x0000000000101506                irq_uninstall_handler
-                0x0000000000101519                irq_remap
-                0x00000000001015e9                irq_install
-                0x0000000000101846                irq_handler
- *fill*         0x00000000001018a5        0x3 00
- .text          0x00000000001018a8      0x4de build/libs/isrs.o
-                0x00000000001018a8                isrs_install
-                0x0000000000101d50                fault_handler
- *fill*         0x0000000000101d86        0x2 00
- .text          0x0000000000101d88       0x66 build/libs/kb.o
-                0x0000000000101d88                keyboard_handler
-                0x0000000000101dd2                keyboard_install
- *fill*         0x0000000000101dee        0x2 00
- .text          0x0000000000101df0      0x38e build/libs/scrn.o
-                0x0000000000101df0                scroll
-                0x0000000000101ea5                move_csr
-                0x0000000000101f20                move_csr_back
-                0x0000000000101f9e                cls
-                0x0000000000102013                putch
-                0x0000000000102105                puts
-                0x000000000010213c                settextcolor
-                0x0000000000102167                init_video
- *fill*         0x000000000010217e        0x2 00
- .text          0x0000000000102180       0x6c build/libs/timer.o
-                0x0000000000102180                timer_handler
-                0x00000000001021b2                timer_wait
-                0x00000000001021d0                timer_install
+ .text          0x0000000000101210       0xf6 build/libs/base.o
+                0x0000000000101210                memcpy
+                0x0000000000101242                memset
+                0x000000000010126f                memsetw
+                0x000000000010129f                strlen
+                0x00000000001012c2                inportb
+                0x00000000001012ea                outportb
+ *fill*         0x0000000000101306        0x2 00
+ .text          0x0000000000101308      0x138 build/libs/gdt.o
+                0x0000000000101308                gdt_set_gate
+                0x000000000010139c                gdt_install
+ .text          0x0000000000101440       0xa1 build/libs/idt.o
+                0x0000000000101440                idt_set_gate
+                0x00000000001014a5                idt_install
+ *fill*         0x00000000001014e1        0x3 00
+ .text          0x00000000001014e4      0x3b1 build/libs/irq.o
+                0x00000000001014e4                irq_install_handler
+                0x00000000001014f6                irq_uninstall_handler
+                0x0000000000101509                irq_remap
+                0x00000000001015d9                irq_install
+                0x0000000000101836                irq_handler
+ *fill*         0x0000000000101895        0x3 00
+ .text          0x0000000000101898      0x4de build/libs/isrs.o
+                0x0000000000101898                isrs_install
+                0x0000000000101d40                fault_handler
+ *fill*         0x0000000000101d76        0x2 00
+ .text          0x0000000000101d78       0x66 build/libs/kb.o
+                0x0000000000101d78                keyboard_handler
+                0x0000000000101dc2                keyboard_install
+ *fill*         0x0000000000101dde        0x2 00
+ .text          0x0000000000101de0      0x38e build/libs/scrn.o
+                0x0000000000101de0                scroll
+                0x0000000000101e95                move_csr
+                0x0000000000101f10                move_csr_back
+                0x0000000000101f8e                cls
+                0x0000000000102003                putch
+                0x00000000001020f5                puts
+                0x000000000010212c                settextcolor
+                0x0000000000102157                init_video
+ *fill*         0x000000000010216e        0x2 00
+ .text          0x0000000000102170       0x6c build/libs/timer.o
+                0x0000000000102170                timer_handler
+                0x00000000001021a2                timer_wait
+                0x00000000001021c0                timer_install
 
-.iplt           0x00000000001021f0        0x0
+.iplt           0x00000000001021e0        0x0
  .iplt          0x0000000000000000        0x0 build/bootloader/idt.o
 
-.rodata         0x0000000000103000      0x195
- *(.rodata*)
- .rodata        0x0000000000103000       0x26 build/kernel/kernel.o
- .rodata        0x0000000000103026      0x158 build/libs/isrs.o
- .rodata        0x000000000010317e       0x17 build/libs/timer.o
-
-.text:          0x0000000000103195        0xd
- .text:         0x0000000000103195        0xd build/bootloader/loader.o
-                0x0000000000103195                loader
-
-.rel.dyn        0x00000000001031a4        0x0
-=======
- .text          0x00000000001011e4       0x31 build/kernel/kernel.o
-                0x00000000001011e4                main
- *fill*         0x0000000000101215        0x3 00
- .text          0x0000000000101218       0xf6 build/libs/base.o
-                0x0000000000101218                memcpy
-                0x000000000010124a                memset
-                0x0000000000101277                memsetw
-                0x00000000001012a7                strlen
-                0x00000000001012ca                inportb
-                0x00000000001012f2                outportb
- *fill*         0x000000000010130e        0x2 00
- .text          0x0000000000101310       0x59 build/libs/buffer.o
-                0x0000000000101310                addCharToLine
- *fill*         0x0000000000101369        0x3 00
- .text          0x000000000010136c      0x138 build/libs/gdt.o
-                0x000000000010136c                gdt_set_gate
-                0x0000000000101400                gdt_install
- .text          0x00000000001014a4       0xa1 build/libs/idt.o
-                0x00000000001014a4                idt_set_gate
-                0x0000000000101509                idt_install
- *fill*         0x0000000000101545        0x3 00
- .text          0x0000000000101548      0x3b1 build/libs/irq.o
-                0x0000000000101548                irq_install_handler
-                0x000000000010155a                irq_uninstall_handler
-                0x000000000010156d                irq_remap
-                0x000000000010163d                irq_install
-                0x000000000010189a                irq_handler
- *fill*         0x00000000001018f9        0x3 00
- .text          0x00000000001018fc      0x4de build/libs/isrs.o
-                0x00000000001018fc                isrs_install
-                0x0000000000101da4                fault_handler
- *fill*         0x0000000000101dda        0x2 00
- .text          0x0000000000101ddc       0x7c build/libs/kb.o
-                0x0000000000101ddc                keyboard_handler
-                0x0000000000101e3c                keyboard_install
- .text          0x0000000000101e58      0x310 build/libs/scrn.o
-                0x0000000000101e58                scroll
-                0x0000000000101f0d                move_csr
-                0x0000000000101f88                cls
-                0x0000000000101ffd                putch
-                0x00000000001020ef                puts
-                0x0000000000102126                settextcolor
-                0x0000000000102151                init_video
- .text          0x0000000000102168       0x4a build/libs/timer.o
-                0x0000000000102168                timer_handler
-                0x0000000000102178                timer_wait
-                0x0000000000102196                timer_install
-
-.iplt           0x00000000001021c0        0x0
- .iplt          0x0000000000000000        0x0 build/bootloader/idt.o
-
-.rodata         0x0000000000103000      0x158
+.rodata         0x0000000000103000      0x16f
  *(.rodata*)
  .rodata        0x0000000000103000      0x158 build/libs/isrs.o
+ .rodata        0x0000000000103158       0x17 build/libs/timer.o
 
-.text:          0x0000000000103158        0xd
- .text:         0x0000000000103158        0xd build/bootloader/loader.o
-                0x0000000000103158                loader
+.text:          0x000000000010316f        0xd
+ .text:         0x000000000010316f        0xd build/bootloader/loader.o
+                0x000000000010316f                loader
 
-.rel.dyn        0x0000000000103168        0x0
->>>>>>> ce29ddb43b5bcb10d2ed3d5df0a594415c3c6bd7
+.rel.dyn        0x000000000010317c        0x0
  .rel.iplt      0x0000000000000000        0x0 build/bootloader/idt.o
  .rel.text      0x0000000000000000        0x0 build/bootloader/idt.o
  .rel.text:     0x0000000000000000        0x0 build/bootloader/idt.o
@@ -213,7 +143,6 @@ Linker script and memory map
  *(.data)
  .data          0x0000000000104000        0x0 build/kernel/kernel.o
  .data          0x0000000000104000        0x0 build/libs/base.o
- .data          0x0000000000104000        0x0 build/libs/buffer.o
  .data          0x0000000000104000        0x0 build/libs/gdt.o
  .data          0x0000000000104000        0x0 build/libs/idt.o
  .data          0x0000000000104000        0x0 build/libs/irq.o
@@ -228,25 +157,18 @@ Linker script and memory map
 .igot.plt       0x0000000000104104        0x0
  .igot.plt      0x0000000000000000        0x0 build/bootloader/idt.o
 
-<<<<<<< HEAD
 .bss            0x0000000000105000     0x18ac
-=======
-.bss            0x0000000000105000     0x1930
->>>>>>> ce29ddb43b5bcb10d2ed3d5df0a594415c3c6bd7
  *(COMMON)
- COMMON         0x0000000000105000       0x64 build/libs/buffer.o
-                0x0000000000105000                screen_buffer
- COMMON         0x0000000000105064       0x1e build/libs/gdt.o
-                0x0000000000105064                gp
-                0x000000000010506a                gdt
- *fill*         0x0000000000105082       0x1e 00
- COMMON         0x00000000001050a0      0x820 build/libs/idt.o
-                0x00000000001050a0                idtp
-                0x00000000001050c0                idt
- COMMON         0x00000000001058c0        0x4 build/libs/scrn.o
-                0x00000000001058c0                textmemptr
+ COMMON         0x0000000000105000       0x1e build/libs/gdt.o
+                0x0000000000105000                gp
+                0x0000000000105006                gdt
+ *fill*         0x000000000010501e        0x2 00
+ COMMON         0x0000000000105020      0x820 build/libs/idt.o
+                0x0000000000105020                idtp
+                0x0000000000105040                idt
+ COMMON         0x0000000000105840        0x4 build/libs/scrn.o
+                0x0000000000105840                textmemptr
  *(.bss)
-<<<<<<< HEAD
  .bss           0x0000000000105844     0x1000 build/bootloader/loader.o
  .bss           0x0000000000106844        0x0 build/kernel/kernel.o
  .bss           0x0000000000106844        0x0 build/libs/base.o
@@ -262,32 +184,11 @@ Linker script and memory map
                 0x00000000001068a4                csr_y
  .bss           0x00000000001068a8        0x4 build/libs/timer.o
                 0x00000000001068a8                timer_ticks
-=======
- .bss           0x00000000001058c4     0x1000 build/bootloader/loader.o
- .bss           0x00000000001068c4        0x0 build/kernel/kernel.o
- .bss           0x00000000001068c4        0x0 build/libs/base.o
- .bss           0x00000000001068c4        0x4 build/libs/buffer.o
-                0x00000000001068c4                cursor
- .bss           0x00000000001068c8        0x0 build/libs/gdt.o
- .bss           0x00000000001068c8        0x0 build/libs/idt.o
- *fill*         0x00000000001068c8       0x18 00
- .bss           0x00000000001068e0       0x40 build/libs/irq.o
-                0x00000000001068e0                irq_routines
- .bss           0x0000000000106920        0x0 build/libs/isrs.o
- .bss           0x0000000000106920        0x4 build/libs/kb.o
-                0x0000000000106920                shift_flag
- .bss           0x0000000000106924        0x8 build/libs/scrn.o
-                0x0000000000106924                csr_x
-                0x0000000000106928                csr_y
- .bss           0x000000000010692c        0x4 build/libs/timer.o
-                0x000000000010692c                timer_ticks
->>>>>>> ce29ddb43b5bcb10d2ed3d5df0a594415c3c6bd7
  *(.stack_begin)
 LOAD build/bootloader/idt.o
 LOAD build/bootloader/loader.o
 LOAD build/kernel/kernel.o
 LOAD build/libs/base.o
-LOAD build/libs/buffer.o
 LOAD build/libs/gdt.o
 LOAD build/libs/idt.o
 LOAD build/libs/irq.o
@@ -301,7 +202,6 @@ OUTPUT(iso/boot/kernel.elf elf32-i386)
  .comment       0x0000000000000000       0x2a build/kernel/kernel.o
                                          0x2b (size before relaxing)
  .comment       0x0000000000000000       0x2b build/libs/base.o
- .comment       0x0000000000000000       0x2b build/libs/buffer.o
  .comment       0x0000000000000000       0x2b build/libs/gdt.o
  .comment       0x0000000000000000       0x2b build/libs/idt.o
  .comment       0x0000000000000000       0x2b build/libs/irq.o
@@ -316,8 +216,6 @@ OUTPUT(iso/boot/kernel.elf elf32-i386)
                 0x0000000000000000        0x0 build/kernel/kernel.o
  .note.GNU-stack
                 0x0000000000000000        0x0 build/libs/base.o
- .note.GNU-stack
-                0x0000000000000000        0x0 build/libs/buffer.o
  .note.GNU-stack
                 0x0000000000000000        0x0 build/libs/gdt.o
  .note.GNU-stack
