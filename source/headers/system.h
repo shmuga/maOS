@@ -1,3 +1,4 @@
+
 /* bkerndev - Bran's Kernel Development Tutorial
 *  By:   Brandon F. (friesenb@gmail.com)
 *  Desc: Global function declarations and type definitions
@@ -53,5 +54,7 @@ extern void timer_install();
 
 /* KEYBOARD.C */
 extern void keyboard_install();
+
+extern void addCharToLine(char c);
 
 #endif
