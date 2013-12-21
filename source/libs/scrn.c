@@ -28,6 +28,17 @@ void move_csr(void)
     outportb(0x3D5, temp);
 }
 
+void move_csr_back(void)
+{
+    unsigned temp;
+    temp = csr_y * 80 + csr_x - 2;
+
+    outportb(0x3D4, 14);
+    outportb(0x3D5, temp >> 8);
+    outportb(0x3D4, 15);
+    outportb(0x3D5, temp);
+}
+
 void cls()
 {
     unsigned blank;

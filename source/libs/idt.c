@@ -3,7 +3,7 @@
 *  Desc: Interrupt Descriptor Table management
 *
 *  Notes: No warranty expressed or implied. Use at own risk. */
-#include <system.h>
+#include "system.h"
 
 /* Defines an IDT entry */
 struct idt_entry

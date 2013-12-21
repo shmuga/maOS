@@ -29,6 +29,7 @@ extern void outportb (unsigned short _port, unsigned char _data);
 extern void init_video(void);
 extern void puts(unsigned char *text);
 extern void putch(unsigned char c);
+extern void move_csr_back(void);
 extern void cls();
 
 /* GDT.C */
