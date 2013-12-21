@@ -22,7 +22,7 @@ Linker script and memory map
  *(.multiboot)
  .multiboot     0x0000000000100000        0xc build/bootloader/loader.o
 
-.text           0x0000000000101000     0x11b6
+.text           0x0000000000101000     0x11b2
  *(.text)
  .text          0x0000000000101000      0x1e2 build/bootloader/idt.o
                 0x0000000000101000                gdt_flush
@@ -108,22 +108,21 @@ Linker script and memory map
                 0x00000000001018fc                isrs_install
                 0x0000000000101da4                fault_handler
  *fill*         0x0000000000101dda        0x2 00
- .text          0x0000000000101ddc       0x7e build/libs/kb.o
+ .text          0x0000000000101ddc       0x7c build/libs/kb.o
                 0x0000000000101ddc                keyboard_handler
-                0x0000000000101e3e                keyboard_install
- *fill*         0x0000000000101e5a        0x2 00
- .text          0x0000000000101e5c      0x310 build/libs/scrn.o
-                0x0000000000101e5c                scroll
-                0x0000000000101f11                move_csr
-                0x0000000000101f8c                cls
-                0x0000000000102001                putch
-                0x00000000001020f3                puts
-                0x000000000010212a                settextcolor
-                0x0000000000102155                init_video
- .text          0x000000000010216c       0x4a build/libs/timer.o
-                0x000000000010216c                timer_handler
-                0x000000000010217c                timer_wait
-                0x000000000010219a                timer_install
+                0x0000000000101e3c                keyboard_install
+ .text          0x0000000000101e58      0x310 build/libs/scrn.o
+                0x0000000000101e58                scroll
+                0x0000000000101f0d                move_csr
+                0x0000000000101f88                cls
+                0x0000000000101ffd                putch
+                0x00000000001020ef                puts
+                0x0000000000102126                settextcolor
+                0x0000000000102151                init_video
+ .text          0x0000000000102168       0x4a build/libs/timer.o
+                0x0000000000102168                timer_handler
+                0x0000000000102178                timer_wait
+                0x0000000000102196                timer_install
 
 .iplt           0x00000000001021c0        0x0
  .iplt          0x0000000000000000        0x0 build/bootloader/idt.o
@@ -160,7 +159,7 @@ Linker script and memory map
 .igot.plt       0x0000000000104104        0x0
  .igot.plt      0x0000000000000000        0x0 build/bootloader/idt.o
 
-.bss            0x0000000000105000     0x192c
+.bss            0x0000000000105000     0x1930
  *(COMMON)
  COMMON         0x0000000000105000       0x64 build/libs/buffer.o
                 0x0000000000105000                screen_buffer
@@ -185,12 +184,13 @@ Linker script and memory map
  .bss           0x00000000001068e0       0x40 build/libs/irq.o
                 0x00000000001068e0                irq_routines
  .bss           0x0000000000106920        0x0 build/libs/isrs.o
- .bss           0x0000000000106920        0x0 build/libs/kb.o
- .bss           0x0000000000106920        0x8 build/libs/scrn.o
-                0x0000000000106920                csr_x
-                0x0000000000106924                csr_y
- .bss           0x0000000000106928        0x4 build/libs/timer.o
-                0x0000000000106928                timer_ticks
+ .bss           0x0000000000106920        0x4 build/libs/kb.o
+                0x0000000000106920                shift_flag
+ .bss           0x0000000000106924        0x8 build/libs/scrn.o
+                0x0000000000106924                csr_x
+                0x0000000000106928                csr_y
+ .bss           0x000000000010692c        0x4 build/libs/timer.o
+                0x000000000010692c                timer_ticks
  *(.stack_begin)
 LOAD build/bootloader/idt.o
 LOAD build/bootloader/loader.o
