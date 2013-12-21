@@ -24,6 +24,4 @@
         call main
         hlt
     .loop:        
-        jmp .loop                  
-        
-    
+        jmp .loop       
