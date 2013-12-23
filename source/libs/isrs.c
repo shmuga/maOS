@@ -143,7 +143,7 @@ void fault_handler(struct regs *r)
     if (r->int_no < 32)
     {
         puts((unsigned char*) exception_messages[r->int_no]);
-        puts((unsigned char*) " Exception. System Halted!\n");
-        for (;;);
+        puts((unsigned char*) " Exception. System Halted!");
+        // for (;;);
     }
 }

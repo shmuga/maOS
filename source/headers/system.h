@@ -9,6 +9,7 @@
 
 typedef int size_t;
 
+
 /* This defines what the stack looks like after an ISR was running */
 struct regs
 {
@@ -52,9 +53,29 @@ extern void irq_install();
 extern void timer_wait(int ticks);
 extern void timer_install();
 
+
+
 /* KEYBOARD.C */
 extern void keyboard_install();
 
-extern void addCharToLine(char c);
+extern void addToBuffer(char c);
+
+extern void move_csr(void);
+extern void wait_com();
+extern void delete_char(int pos);
+extern void refresh_com();
+extern void clear_line(int n);
+extern void insert_char(char c, int pos);
+extern void backspace_char(int pos);
+
+
+extern int csr_x;
+extern int csr_y;
+extern int com_len;
+extern int start_line;
+extern char line[256];
+extern int init_len;
+extern void alert(char s[], int line);
+
 
 #endif

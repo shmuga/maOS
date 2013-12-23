@@ -13,6 +13,8 @@ void main(unsigned long magic, unsigned long addr)
 
     __asm__ __volatile__ ("sti");
 	cls();
+
+    wait_com();
     // timer_wait(180);
 	// puts((unsigned char*)"This is the beggining of the new ERA!");
 	for(;;);
