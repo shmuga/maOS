@@ -20,7 +20,10 @@
 
     section .text:          
     loader:
-        mov esp, kernel_stack + KERNEL_STACK_SIZE                        
+        mov esp, kernel_stack + KERNEL_STACK_SIZE     
+        push 0          
+        push ebx
+        push eax         
         call main
         hlt
     .loop:        

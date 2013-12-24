@@ -8,8 +8,10 @@ nasm -f elf32 source/bootloader/idt.s -o build/bootloader/idt.o
 gcc $gcc_flags -c source/kernel/*.c  -o build/kernel/kernel.o
 gcc $gcc_flags -c source/libs/*.c 
 mv *.o build/libs/
+gcc $gcc_flags -c source/stdlib/*.c 
+mv *.o build/stdlib/
 
-ld -T link.ld -melf_i386 -Map logs/kernel.map build/bootloader/*.o build/kernel/*.o build/libs/*.o -o iso/boot/kernel.elf
+ld -T link.ld -melf_i386 -Map logs/kernel.map build/bootloader/*.o build/kernel/*.o build/libs/*.o build/stdlib/*.o -o iso/boot/kernel.elf
 
 cp grub/stage2_eltorito iso/boot/grub/
 cp grub/menu.lst iso/boot/grub/

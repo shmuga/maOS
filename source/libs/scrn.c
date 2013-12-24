@@ -1,8 +1,15 @@
 #include "system.h"
+#include "stdlib.h"
 
 unsigned short *textmemptr;
 int attrib = 0x0F;
 int csr_x = 0, csr_y = 0;
+int com_len = 0;
+int start_line = 0;
+char line[256] = "";
+
+char init_line[] = "command: ";
+int init_len = 9;
 
 void scroll(void)
 {
@@ -67,11 +74,11 @@ void putch(unsigned char c)
     else if(c == 0x09)
     {
         csr_x = (csr_x + 8) & ~(8 - 1);
-    }    
+    }
     else if(c == '\r')
     {
         csr_x = 0;
-    }    
+    }
     else if(c == '\n')
     {
         csr_x = 0;
@@ -103,6 +110,35 @@ void puts(unsigned char *text)
     }
 }
 
+void prints(char *text,char last){
+    puts((unsigned char*)text);
+    if (last!=0){
+        printc(last);
+    }
+}
+
+void printc(char t){
+    putch((unsigned char)t);
+}
+
+void printhex(unsigned long num,char last){
+    char buf[100];
+    itoa(num,buf,16);
+    prints(buf,0);
+    if (last!=0){
+        printc(last);
+    }
+}
+
+void printnum(unsigned long num,int base,char last){
+    char buf[100];
+    itoa(num,buf,base);
+    prints(buf,0);
+    if (last!=0){
+        printc(last);
+    }
+}
+
 void settextcolor(unsigned char forecolor, unsigned char backcolor)
 {
     attrib = (backcolor << 4) | (forecolor & 0x0F);
@@ -113,3 +149,96 @@ void init_video(void)
     textmemptr = (unsigned short *)0xB8000;
     cls();
 }
+
+
+void wait_com() {
+    start_line = csr_y;
+    puts((unsigned char*)init_line);
+    csr_x = init_len;
+}
+
+void clear_line(int n) {
+    int cur_y = csr_y;
+    int cur_x = csr_x;
+    char blink_line[] = "                                                                                ";
+    csr_y = n;
+    csr_x = 0;
+    puts((unsigned char*)blink_line);
+    csr_y = cur_y;
+    csr_x = cur_x;
+}
+
+void refresh_com() {
+    int cur_y = csr_y;
+    int cur_x = csr_x;
+    for (int i = start_line; i <= csr_y; i++) {
+        clear_line(i);
+    }
+    csr_y = start_line;
+    csr_x = 0;
+    wait_com();
+    for (int i = 0; i < com_len; i++) {
+        putch(line[i]);
+    }
+    csr_y = cur_y;
+    csr_x = cur_x;
+    move_csr();
+}
+
+void insert_char(char c, int pos) {
+    for (int i = com_len; i >= pos; i--) {
+        if (line[i-1] == ' ') line[i] = ' ';
+        else line[i] = line[i - 1];
+    }
+    line[pos] = c;
+    com_len++;
+    refresh_com();
+    csr_x++;
+    move_csr();
+}
+
+void delete_char(int pos) {
+    // alert(line, 20);
+    int temp = 80 * (csr_y - start_line) + csr_x - init_len;
+    if (temp >= com_len) return;
+    if (com_len > 0) {
+        for (int i = pos; i < com_len; i++) {
+            line[i] = line[i + 1];
+        }
+        com_len--;
+        line[com_len] = 0;
+    }
+    refresh_com();
+    // alert(line, 21);
+}
+
+void backspace_char(int pos) {
+    int temp = 80 * (csr_y - start_line) + csr_x - init_len;
+    if (temp > com_len) return;
+    if (temp <= 0) return;
+    if (com_len > 0) {
+        for (int i = pos; i < com_len; i++) {
+            line[i] = line[i + 1];
+        }
+        com_len--;
+        csr_x--;
+    }
+    refresh_com();
+}
+
+void alert(char s[], int line) {
+    clear_line(line);
+    int cur_y = csr_y;
+    int cur_x = csr_x;
+    csr_y = line;
+    csr_x = 0;
+    putch('|');
+    for (int i = 0; i < 70; i++) {
+     putch(s[i]);
+    }
+    putch('|');
+    csr_y = cur_y;
+    csr_x = cur_x;
+    move_csr();
+}
+// command: hello
